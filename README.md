@@ -4,6 +4,11 @@ Author: Eloc
 
 Description: Library for getting data off recursive endpoints
 
+To run the test:
+```
+bun test
+```
+
 ### `getId()`
 
 Retrieves the inscription ID from the current page's URL. Assumes the URL follows a structure like `/content/<id>` or `/preview/<id>`. The ID is expected to be the third segment in the URL path.
