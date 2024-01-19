@@ -35,7 +35,12 @@ export function getId() {
  */
 export async function getMetadata(inscriptionId = getId(), origin = '') {
   return fetch(`${origin}/r/metadata/${inscriptionId}`)
-    .then((response) => response.json())
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`inscription ${inscriptionId} metadata not found`);
+      }
+      return response.json();
+    })
     .then((json) => {
       const byteArray = new Uint8Array(
         json.match(/.{1,2}/g).map((byte) => parseInt(byte, 16))

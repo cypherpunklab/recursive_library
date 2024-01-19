@@ -95,6 +95,20 @@ describe('getMetadata', () => {
   });
 });
 
+describe('getMetadata', () => {
+  it('should fetch and process metadata and handle 404', async () => {
+    const testId =
+      'c75dfdc8cbc8c237dfa94f7ba023a25412e3d7839f3009bfb880f054968fc21di0';
+
+    try {
+      await getMetadata(testId, testOrigin);
+      fail(`inscription ${testId} metadata not found`);
+    } catch (error) {
+      expect(error.message).toBe(`inscription ${testId} metadata not found`);
+    }
+  });
+});
+
 describe('getBlockHash', () => {
   it('should fetch hash at height', async () => {
     const testHeight = 1;
