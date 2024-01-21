@@ -88,10 +88,11 @@ describe('getMetadata', () => {
 
     const metadata = await getMetadata(testId, testOrigin);
     expect(metadata).toEqual({
-      title: 'Cypherpunk Ghost Honoary Eloc',
-      description: 'Cypherpunk legends of past, present and future',
-      collection: 'Cypherpunk Ghost Honoarys',
-    });
+        title: 'Cypherpunk Ghost Honoary Eloc',
+        description: 'Cypherpunk legends of past, present and future',
+        collection: 'Cypherpunk Ghost Honoarys',
+      }
+    );
   });
 });
 
@@ -99,13 +100,8 @@ describe('getMetadata', () => {
   it('should fetch and process metadata and handle 404', async () => {
     const testId =
       'c75dfdc8cbc8c237dfa94f7ba023a25412e3d7839f3009bfb880f054968fc21di0';
-
-    try {
-      await getMetadata(testId, testOrigin);
-      fail(`inscription ${testId} metadata not found`);
-    } catch (error) {
-      expect(error.message).toBe(`inscription ${testId} metadata not found`);
-    }
+    const meta = await getMetadata(testId, testOrigin);
+    expect(meta).toEqual(null);
   });
 });
 
@@ -122,13 +118,11 @@ describe('getBlockHash', () => {
   it('should handle future block', async () => {
     const testHeight = 888888;
 
-    try {
-      await getBlockHash(testHeight, testOrigin);
-      fail('Expected getBlockHash to throw an "blockhash not found" error');
-    } catch (error) {
-      expect(error.message).toBe('blockhash not found');
-    }
-  });
+
+      const hash = await getBlockHash(testHeight, testOrigin);
+      expect(hash).toEqual(null);
+  }
+    );
 });
 
 describe('getBlockTime', () => {

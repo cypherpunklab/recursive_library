@@ -27,28 +27,27 @@ export function getId() {
  * @param {string} inscriptionId - Inscription to get metadata.
  *                                 Defaults to the ID of the page running it if none is given.
  * @param {string} origin - The origin for the fetch
- * @returns {Promise<Object>} A promise that resolves with the processed metadata.
- *                            The metadata is a JavaScript object parsed from a CBOR-encoded response.
+ * @returns {Promise<{Object | null}>} A promise that resolves with the processed metadata or null if the metadata was not found.
  * @example
  * import { getMetadata } from '/content/<ID_OF_THIS_INSCRIPTION>';
  * const metadata = await getMetadata();
  */
 export async function getMetadata(inscriptionId = getId(), origin = '') {
-  return fetch(`${origin}/r/metadata/${inscriptionId}`)
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`inscription ${inscriptionId} metadata not found`);
-      }
-      return response.json();
-    })
-    .then((json) => {
-      const byteArray = new Uint8Array(
-        json.match(/.{1,2}/g).map((byte) => parseInt(byte, 16))
-      );
-      return byteArray.buffer;
-    })
-    .then((buffer) => decode(new Uint8Array(buffer)))
-    .then((jsonData) => jsonData);
+  try {
+    const response = await fetch(`${origin}/r/metadata/${inscriptionId}`);
+    if (!response.ok) {
+      return null;
+    }
+    const json = await response.json();
+    const byteArray = new Uint8Array(
+      json.match(/.{1,2}/g).map((byte) => parseInt(byte, 16))
+    );
+    const buffer = byteArray.buffer;
+    const jsonData = decode(new Uint8Array(buffer));
+    return jsonData;
+  } catch (error) {
+    console.error('Error fetching metadata:', error);
+  }
 }
 
 /**
@@ -191,7 +190,7 @@ export async function getChildrenAll(inscriptionId = getId(), origin = '') {
  * Fetches the block hash at a given block height.
  *
  * @param {number} height - The height of the block to get the hash of.
- * @returns {Promise<string>} A promise that resolves with the hash of the block.
+ * @returns {Promise<string | null>} A promise that resolves with the hash of the block or null if 404.
  * @example
  * import { getBlockHash } from '/content/<ID_OF_THIS_INSCRIPTION>';
  * const findHash = await getBlockHash(height)
@@ -202,7 +201,7 @@ export async function getBlockHash(height, origin = '') {
 
   if (!response.ok) {
     if (response.status === 404) {
-      throw new Error('blockhash not found');
+      return null;
     }
     throw new Error('Network response was not ok');
   }
