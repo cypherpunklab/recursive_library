@@ -6,7 +6,7 @@
 import { decode } from './content/cbor-x.mjs';
 
 /**
- * Retrieves the inscription ID from the current page's URL.
+ * @description Retrieves the inscription ID from the current page's URL.
  * Assumes the URL follows a structure like `/content/<id>` or `/preview/<id>`.
  * The ID is expected to be the third segment in the URL path.
  *
@@ -21,9 +21,8 @@ export function getId() {
 }
 
 /**
- * Fetches metadata information about an inscription.
+ * @description Fetches metadata information about an inscription.
  * Defaults to using the ID obtained from `getId()` if an `inscriptionId` is not provided.
- *
  * @param {string} inscriptionId - Inscription to get metadata.
  *                                 Defaults to the ID of the page running it if none is given.
  * @param {string} origin - The origin for the fetch
@@ -51,7 +50,7 @@ export async function getMetadata(inscriptionId = getId(), origin = '') {
 }
 
 /**
- * Fetches a single inscription on a sat based on index.
+ * @description Fetches a single inscription on a sat based on index.
  * If index is not provided, it defaults to -1, which fetches the most recent inscription.
  *
  * @param {string} sat - The sat to fetch the inscription from.
@@ -69,7 +68,7 @@ export async function getSatAt(sat, index = -1, origin = '') {
 }
 
 /**
- * Fetches the page data for a specific SAT at a given page number.
+ * @description Fetches the page data for a specific SAT at a given page number.
  *
  * @param {string} sat - The SAT number to fetch the page data for.
  * @param {number} page - The page number to fetch. Defaults to 0.
@@ -98,7 +97,7 @@ export async function getSatPage(sat, page = 0, origin = '') {
 }
 
 /**
- * Fetches all the inscriptions on a sat.
+ * @description Fetches all the inscriptions on a sat.
  * The function fetches the inscriptions in pages, and continues fetching until there are no more pages.
  *
  * @param {string} sat - The sat to fetch the inscriptions from.
@@ -123,7 +122,7 @@ export async function getSatAll(sat, origin = '') {
 }
 
 /**
- * Fetches the children of a given inscription.
+ * @description Fetches the children of a given inscription.
  * If no inscription ID is provided, it defaults to using the ID obtained from `getId()`.
  *
  * @param {string} inscriptionId - The ID of the inscription to get the children of.
@@ -162,7 +161,7 @@ export const getChildrenPage = async (
 };
 
 /**
- * Fetches all the children of a given inscription.
+ * @description Fetches all the children of a given inscription.
  *
  * @param {string} inscriptionId - The ID of the inscription to get the children of.
  *                                 Defaults to the ID obtained from `getId()`.
@@ -187,7 +186,7 @@ export async function getChildrenAll(inscriptionId = getId(), origin = '') {
   return ids;
 }
 /**
- * Fetches the block hash at a given block height.
+ * @description Fetches the block hash at a given block height.
  *
  * @param {number} height - The height of the block to get the hash of.
  * @returns {Promise<string | null>} A promise that resolves with the hash of the block or null if 404.
@@ -211,7 +210,7 @@ export async function getBlockHash(height, origin = '') {
 }
 
 /**
- * Fetches the latest block height.
+ * @description Fetches the latest block height.
  * @param {origin} origin - The origin for the fetch.
  * @returns {Promise<number>} A promise that resolves with the height of the latest block.
  * @example
@@ -232,7 +231,7 @@ export async function getBlockHeight(origin = '') {
 }
 
 /**
- * Fetches the UNIX time stamp of the latest block.
+ * @description Fetches the UNIX time stamp of the latest block.
  * @param {origin} origin - The origin for the fetch.
  * @returns {Promise<number>} A promise that resolves with the UNIX time stamp of the latest block.
  * @example
