@@ -2,6 +2,13 @@
 
 Inscripton location: ef7689dc2f504f63f8d13356f8928a2fec097b3b014c9fe53a1d1ddb5952f5dbi0
 
+To use in your inscription use script type module
+```html
+<script type="module">
+import { getId, getMetadata, getSatAt, getSatPage, getSatAll, getChildrenPage, getChildrenAll, getBlockHash, getBlockHeight, getBlockTime } from '/content/ef7689dc2f504f63f8d13356f8928a2fec097b3b014c9fe53a1d1ddb5952f5dbi0'
+</script>
+```
+
 Author: Eloc
 
 Description: Library for getting data off recursive endpoints
