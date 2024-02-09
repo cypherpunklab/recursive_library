@@ -3,9 +3,10 @@
 Inscripton location: ef7689dc2f504f63f8d13356f8928a2fec097b3b014c9fe53a1d1ddb5952f5dbi0
 
 To use in your inscription use script type module
+Example import:
 ```html
 <script type="module">
-import { getMetadata, getSatAt, getBlockHash, } from '/content/ef7689dc2f504f63f8d13356f8928a2fec097b3b014c9fe53a1d1ddb5952f5dbi0'
+import { getMetadata, getSatAt, getBlockHash } from '/content/ef7689dc2f504f63f8d13356f8928a2fec097b3b014c9fe53a1d1ddb5952f5dbi0'
 </script>
 ```
 
