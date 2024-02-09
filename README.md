@@ -1,5 +1,7 @@
 # Recursive Endpoints
 
+Inscripton location: ef7689dc2f504f63f8d13356f8928a2fec097b3b014c9fe53a1d1ddb5952f5dbi0
+
 Author: Eloc
 
 Description: Library for getting data off recursive endpoints
@@ -18,7 +20,7 @@ Retrieves the inscription ID from the current page's URL. Assumes the URL follow
 **Example:**
 
 ```javascript
-import { getId } from '/content/<ID_OF_THIS_INSCRIPTION>';
+import { getId } from '/content/ef7689dc2f504f63f8d13356f8928a2fec097b3b014c9fe53a1d1ddb5952f5dbi0';
 const myId = getId();
 ```
 
@@ -36,7 +38,7 @@ Fetches metadata information about an inscription. Defaults to using the ID obta
 **Example:**
 
 ```javascript
-import { getMetadata } from '/content/<ID_OF_THIS_INSCRIPTION>';
+import { getMetadata } from '/content/ef7689dc2f504f63f8d13356f8928a2fec097b3b014c9fe53a1d1ddb5952f5dbi0';
 const metadata = await getMetadata();
 ```
 
@@ -55,7 +57,7 @@ Fetches a single inscription on a sat based on index. If index is not provided, 
 **Example:**
 
 ```javascript
-import { getSatAt } from '/content/<ID_OF_THIS_INSCRIPTION>';
+import { getSatAt } from '/content/ef7689dc2f504f63f8d13356f8928a2fec097b3b014c9fe53a1d1ddb5952f5dbi0';
 const sat = 1;
 const newestSatInscription = await getSatAt(sat);
 ```
@@ -75,7 +77,7 @@ Fetches the page data for a specific SAT at a given page number.
 **Example:**
 
 ```javascript
-import { getSatPage } from '/content/<ID_OF_THIS_INSCRIPTION>';
+import { getSatPage } from '/content/ef7689dc2f504f63f8d13356f8928a2fec097b3b014c9fe53a1d1ddb5952f5dbi0';
 const sat = 1;
 const satFirst100 = await getSatPage(sat);
 ```
@@ -94,7 +96,7 @@ Fetches all the inscriptions on a sat. The function fetches the inscriptions in 
 **Example:**
 
 ```javascript
-import { getSatAll } from '/content/<ID_OF_THIS_INSCRIPTION>';
+import { getSatAll } from '/content/ef7689dc2f504f63f8d13356f8928a2fec097b3b014c9fe53a1d1ddb5952f5dbi0';
 const satAll = await getSatAll();
 ```
 
@@ -113,7 +115,7 @@ Fetches the children of a given inscription. If no inscription ID is provided, i
 **Example:**
 
 ```javascript
-import { getChildrenPage } from '/content/<ID_OF_THIS_INSCRIPTION>';
+import { getChildrenPage } from '/content/ef7689dc2f504f63f8d13356f8928a2fec097b3b014c9fe53a1d1ddb5952f5dbi0';
 const getFirst100Children = await getChildrenPage();
 ```
 
@@ -131,7 +133,7 @@ Fetches all the children of a given inscription.
 **Example:**
 
 ```javascript
-import { getChildrenAll } from '/content/<ID_OF_THIS_INSCRIPTION>';
+import { getChildrenAll } from '/content/ef7689dc2f504f63f8d13356f8928a2fec097b3b014c9fe53a1d1ddb5952f5dbi0';
 const allChildren = await getChildrenAll();
 ```
 
@@ -149,7 +151,7 @@ Fetches the block hash at a given block height.
 **Example:**
 
 ```javascript
-import { getBlockHash } from '/content/<ID_OF_THIS_INSCRIPTION>';
+import { getBlockHash } from '/content/ef7689dc2f504f63f8d13356f8928a2fec097b3b014c9fe53a1d1ddb5952f5dbi0';
 const findHash = await getBlockHash(height);
 ```
 
@@ -166,7 +168,7 @@ Fetches the latest block height.
 **Example:**
 
 ```javascript
-import { getBlockHeight } from '/content/<ID_OF_THIS_INSCRIPTION>';
+import { getBlockHeight } from '/content/ef7689dc2f504f63f8d13356f8928a2fec097b3b014c9fe53a1d1ddb5952f5dbi0';
 const bh = await getBlockHeight();
 ```
 
@@ -183,6 +185,6 @@ Fetches the UNIX time stamp of the latest block.
 **Example:**
 
 ```javascript
-import { getBlockTime } from '/content/<ID_OF_THIS_INSCRIPTION>';
+import { getBlockTime } from '/content/ef7689dc2f504f63f8d13356f8928a2fec097b3b014c9fe53a1d1ddb5952f5dbi0';
 const blockTime = await getBlockTime();
 ```
