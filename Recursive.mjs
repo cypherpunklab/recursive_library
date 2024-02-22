@@ -21,6 +21,31 @@ export function getId() {
 }
 
 /**
+ * @description Fetches information about an inscription.
+ * Defaults to using the ID obtained from `getId()` if an `inscriptionId` is not provided.
+ * @param {string} inscriptionId - Inscription to get metadata.
+ *                                 Defaults to the ID of the page running it if none is given.
+ * @param {string} origin - The origin for the fetch
+ * @returns {Promise<{charms: Array<string>, content_type: string, content_length: number, fee: number, height: number, number: number, output: string, sat: null | string, satpoint: string, timestamp: number, value: number} | null>} A promise that resolves with the processed metadata or null if the metadata was not found.
+ * @example
+ * import { getMetadata } from '/content/<ID_OF_THIS_INSCRIPTION>';
+ * const inscription = await getInscription();
+ */
+
+export async function getInscription(inscriptionId = getId(), origin = '') {
+  try {
+    const response = await fetch(`${origin}/r/inscription/${inscriptionId}`);
+    if (!response.ok) {
+      return null;
+    }
+    const json = await response.json();
+    return json;
+  } catch (error) {
+    console.error('Error fetching inscription:', error);
+  }
+}
+
+/**
  * @description Fetches metadata information about an inscription.
  * Defaults to using the ID obtained from `getId()` if an `inscriptionId` is not provided.
  * @param {string} inscriptionId - Inscription to get metadata.
@@ -185,6 +210,39 @@ export async function getChildrenAll(inscriptionId = getId(), origin = '') {
   }
   return ids;
 }
+
+/**
+ * @description Fetches all information about an inscription, including children, sat inscriptions, metadata and its id.
+ * Defaults to using the ID obtained from `getId()` if an `inscriptionId` is not provided.
+ * @param {string} inscriptionId - Inscription to get all information.
+ *                                 Defaults to the ID of the page running it if none is given.
+ * @param {string} origin - The origin for the fetch
+ * @returns {Promise<{inscription: {charms: Array<string>, content_type: string, content_length: number, fee: number, height: number, number: number, output: string, sat: null | string, satpoint: string, timestamp: number, value: number} | null, children: Array<string>, satIds: Array<string>, metadata: Object | null, id: <string>}>} A promise that resolves with all the information about the inscription.
+ * @example
+ * import { getInscriptionAll } from '/content/<ID_OF_THIS_INSCRIPTION>';
+ * const allInfo = await getInscriptionAll();
+ */
+export async function getAll(inscriptionId = getId(), origin = '') {
+  let res = {};
+  try {
+    const inscription = await getInscription(inscriptionId, origin);
+    res.inscription = inscription;
+
+    const children = await getChildrenAll(inscriptionId, origin);
+    res.children = children;
+
+    const sat = await getSatAll(inscriptionId, origin);
+    res.satIds = sat;
+
+    const metadata = await getMetadata(inscriptionId, origin);
+    res.metadata = metadata;
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+  res.id = inscriptionId;
+  return res;
+}
+
 /**
  * @description Fetches the block hash at a given block height.
  *
