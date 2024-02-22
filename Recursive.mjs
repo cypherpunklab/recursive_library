@@ -231,7 +231,7 @@ export async function getAll(inscriptionId = getId(), origin = '') {
     const children = await getChildrenAll(inscriptionId, origin);
     res.children = children;
 
-    const sat = await getSatAll(inscriptionId, origin);
+    const sat = await getSatAll(inscription.sat, origin);
     res.satIds = sat;
 
     const metadata = await getMetadata(inscriptionId, origin);
