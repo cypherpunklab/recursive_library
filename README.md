@@ -1,6 +1,7 @@
 # Recursive Endpoints
 
-Inscripton location V1: `ef7689dc2f504f63f8d13356f8928a2fec097b3b014c9fe53a1d1ddb5952f5dbi0`
+Inscription location V1: `ef7689dc2f504f63f8d13356f8928a2fec097b3b014c9fe53a1d1ddb5952f5dbi0`
+Inscription location V2: `89fbbeca30c87535f9db283da584006c90076f220dbf410a01985a1840e0ea0ci0`
 
 To use in your inscription use script type module
 Example import:
@@ -93,7 +94,7 @@ A promise that resolves with all the information about the inscription.
 **Example:**
 
 ```js
-import { getInscriptionAll } from '/content/<ID_OF_THIS_INSCRIPTION>';
+import { getInscriptionAll } from '/content/89fbbeca30c87535f9db283da584006c90076f220dbf410a01985a1840e0ea0ci0';
 const allInfo = await getInscriptionAll();
 ```
 
@@ -160,7 +161,7 @@ A promise that resolves with info about the inscription or null if the inscripti
 **Example:**
 
 ```js
-import { getInscription } from '/content/<ID_OF_THIS_INSCRIPTION>';
+import { getInscription } from '/content/89fbbeca30c87535f9db283da584006c90076f220dbf410a01985a1840e0ea0ci0';
 const inscription = await getInscription();
 ```
 
@@ -348,7 +349,7 @@ A promise that resolves with the information about the block or null if not foun
 **Example:**
 
 ```js
-import { getBlockInfo } from '/content/<ID_OF_THIS_INSCRIPTION>';
+import { getBlockInfo } from '/content/89fbbeca30c87535f9db283da584006c90076f220dbf410a01985a1840e0ea0ci0';
 const blockInfo = await getBlockInfo(0);
 ```
 
