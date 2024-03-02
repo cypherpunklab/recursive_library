@@ -1,6 +1,7 @@
 # Recursive Endpoints
 
-Inscripton location V1: `ef7689dc2f504f63f8d13356f8928a2fec097b3b014c9fe53a1d1ddb5952f5dbi0`
+Inscription location V1: `89fbbeca30c87535f9db283da584006c90076f220dbf410a01985a1840e0ea0ci0`
+Inscription location V2: `89fbbeca30c87535f9db283da584006c90076f220dbf410a01985a1840e0ea0ci0`
 
 To use in your inscription use script type module
 Example import:
@@ -11,7 +12,7 @@ Example import:
     getMetadata,
     getSatAt,
     getBlockHash,
-  } from '/content/ef7689dc2f504f63f8d13356f8928a2fec097b3b014c9fe53a1d1ddb5952f5dbi0';
+  } from '/content/89fbbeca30c87535f9db283da584006c90076f220dbf410a01985a1840e0ea0ci0';
 </script>
 ```
 
@@ -93,7 +94,7 @@ A promise that resolves with all the information about the inscription.
 **Example:**
 
 ```js
-import { getInscriptionAll } from '/content/<ID_OF_THIS_INSCRIPTION>';
+import { getInscriptionAll } from '/content/89fbbeca30c87535f9db283da584006c90076f220dbf410a01985a1840e0ea0ci0';
 const allInfo = await getInscriptionAll();
 ```
 
@@ -112,7 +113,7 @@ The extracted ID.
 **Example:**
 
 ```javascript
-import { getId } from '/content/ef7689dc2f504f63f8d13356f8928a2fec097b3b014c9fe53a1d1ddb5952f5dbi0';
+import { getId } from '/content/89fbbeca30c87535f9db283da584006c90076f220dbf410a01985a1840e0ea0ci0';
 const myId = getId();
 ```
 
@@ -160,7 +161,7 @@ A promise that resolves with info about the inscription or null if the inscripti
 **Example:**
 
 ```js
-import { getInscription } from '/content/<ID_OF_THIS_INSCRIPTION>';
+import { getInscription } from '/content/89fbbeca30c87535f9db283da584006c90076f220dbf410a01985a1840e0ea0ci0';
 const inscription = await getInscription();
 ```
 
@@ -186,7 +187,7 @@ A promise that resolves with the processed metadata. The metadata is a JavaScrip
 **Example:**
 
 ```javascript
-import { getMetadata } from '/content/ef7689dc2f504f63f8d13356f8928a2fec097b3b014c9fe53a1d1ddb5952f5dbi0';
+import { getMetadata } from '/content/89fbbeca30c87535f9db283da584006c90076f220dbf410a01985a1840e0ea0ci0';
 const metadata = await getMetadata();
 ```
 
@@ -211,7 +212,7 @@ A promise that resolves with the fetched inscriptionId.
 **Example:**
 
 ```javascript
-import { getSatAt } from '/content/ef7689dc2f504f63f8d13356f8928a2fec097b3b014c9fe53a1d1ddb5952f5dbi0';
+import { getSatAt } from '/content/89fbbeca30c87535f9db283da584006c90076f220dbf410a01985a1840e0ea0ci0';
 const sat = 1;
 const newestSatInscription = await getSatAt(sat);
 ```
@@ -235,7 +236,7 @@ Promise<{ ids: Array<string>; more: boolean; page: number }>;
 **Example:**
 
 ```javascript
-import { getSatPage } from '/content/ef7689dc2f504f63f8d13356f8928a2fec097b3b014c9fe53a1d1ddb5952f5dbi0';
+import { getSatPage } from '/content/89fbbeca30c87535f9db283da584006c90076f220dbf410a01985a1840e0ea0ci0';
 const sat = 1;
 const satFirst100 = await getSatPage(sat);
 ```
@@ -260,7 +261,7 @@ A promise that resolves with an array of the IDs of the inscriptions.
 **Example:**
 
 ```javascript
-import { getSatAll } from '/content/ef7689dc2f504f63f8d13356f8928a2fec097b3b014c9fe53a1d1ddb5952f5dbi0';
+import { getSatAll } from '/content/89fbbeca30c87535f9db283da584006c90076f220dbf410a01985a1840e0ea0ci0';
 const satAll = await getSatAll();
 ```
 
@@ -283,7 +284,7 @@ Promise<{ ids: Array<string>; more: boolean; page: number }>;
 **Example:**
 
 ```javascript
-import { getChildrenPage } from '/content/ef7689dc2f504f63f8d13356f8928a2fec097b3b014c9fe53a1d1ddb5952f5dbi0';
+import { getChildrenPage } from '/content/89fbbeca30c87535f9db283da584006c90076f220dbf410a01985a1840e0ea0ci0';
 const getFirst100Children = await getChildrenPage();
 ```
 
@@ -307,7 +308,7 @@ A promise that resolves with an array of the IDs of the children.
 **Example:**
 
 ```javascript
-import { getChildrenAll } from '/content/ef7689dc2f504f63f8d13356f8928a2fec097b3b014c9fe53a1d1ddb5952f5dbi0';
+import { getChildrenAll } from '/content/89fbbeca30c87535f9db283da584006c90076f220dbf410a01985a1840e0ea0ci0';
 const allChildren = await getChildrenAll();
 ```
 
@@ -348,7 +349,7 @@ A promise that resolves with the information about the block or null if not foun
 **Example:**
 
 ```js
-import { getBlockInfo } from '/content/<ID_OF_THIS_INSCRIPTION>';
+import { getBlockInfo } from '/content/89fbbeca30c87535f9db283da584006c90076f220dbf410a01985a1840e0ea0ci0';
 const blockInfo = await getBlockInfo(0);
 ```
 
@@ -372,7 +373,7 @@ A promise that resolves with the hash of the block.
 **Example:**
 
 ```javascript
-import { getBlockHash } from '/content/ef7689dc2f504f63f8d13356f8928a2fec097b3b014c9fe53a1d1ddb5952f5dbi0';
+import { getBlockHash } from '/content/89fbbeca30c87535f9db283da584006c90076f220dbf410a01985a1840e0ea0ci0';
 const findHash = await getBlockHash(height);
 ```
 
@@ -395,7 +396,7 @@ A promise that resolves with the height of the latest block.
 **Example:**
 
 ```javascript
-import { getBlockHeight } from '/content/ef7689dc2f504f63f8d13356f8928a2fec097b3b014c9fe53a1d1ddb5952f5dbi0';
+import { getBlockHeight } from '/content/89fbbeca30c87535f9db283da584006c90076f220dbf410a01985a1840e0ea0ci0';
 const bh = await getBlockHeight();
 ```
 
@@ -418,6 +419,6 @@ A promise that resolves with the UNIX time stamp of the latest block.
 **Example:**
 
 ```javascript
-import { getBlockTime } from '/content/ef7689dc2f504f63f8d13356f8928a2fec097b3b014c9fe53a1d1ddb5952f5dbi0';
+import { getBlockTime } from '/content/89fbbeca30c87535f9db283da584006c90076f220dbf410a01985a1840e0ea0ci0';
 const blockTime = await getBlockTime();
 ```
