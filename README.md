@@ -1,12 +1,17 @@
 # Recursive Endpoints
 
-Inscripton location: ef7689dc2f504f63f8d13356f8928a2fec097b3b014c9fe53a1d1ddb5952f5dbi0
+Inscripton location V1: `ef7689dc2f504f63f8d13356f8928a2fec097b3b014c9fe53a1d1ddb5952f5dbi0`
 
 To use in your inscription use script type module
 Example import:
+
 ```html
 <script type="module">
-import { getMetadata, getSatAt, getBlockHash } from '/content/ef7689dc2f504f63f8d13356f8928a2fec097b3b014c9fe53a1d1ddb5952f5dbi0'
+  import {
+    getMetadata,
+    getSatAt,
+    getBlockHash,
+  } from '/content/ef7689dc2f504f63f8d13356f8928a2fec097b3b014c9fe53a1d1ddb5952f5dbi0';
 </script>
 ```
 
@@ -15,6 +20,7 @@ Author: Eloc
 Description: Library for getting data off recursive endpoints
 
 To run the test:
+
 ```
 bun test
 ```
@@ -23,13 +29,55 @@ bun test
 
 Retrieves the inscription ID from the current page's URL. Assumes the URL follows a structure like `/content/<id>` or `/preview/<id>`. The ID is expected to be the third segment in the URL path.
 
-**Returns:** `string` - The extracted ID.
+**Returns:**
+
+```ts
+string;
+```
+
+The extracted ID.
 
 **Example:**
 
 ```javascript
 import { getId } from '/content/ef7689dc2f504f63f8d13356f8928a2fec097b3b014c9fe53a1d1ddb5952f5dbi0';
 const myId = getId();
+```
+
+### `getInscription(inscriptionId, origin)`
+
+Fetches information about an inscription. Defaults to using the ID obtained from `getId()` if an `inscriptionId` is not provided.
+
+**Parameters:**
+
+- `inscriptionId` - Inscription to get information about. Defaults to the ID of the page running it if none is given.
+- `origin` - The origin for the fetch.
+
+**Returns:**
+
+```ts
+Promise<{
+  charms: Array<string>;
+  content_type: string;
+  content_length: number;
+  fee: number;
+  height: number;
+  number: number;
+  output: string;
+  sat: null | string;
+  satpoint: string;
+  timestamp: number;
+  value: number;
+} | null>;
+```
+
+A promise that resolves with info about the inscription or null if the inscription was not found.
+
+**Example:**
+
+```js
+import { getInscription } from '/content/<ID_OF_THIS_INSCRIPTION>';
+const inscription = await getInscription();
 ```
 
 ### `getMetadata(inscriptionId, origin)`
@@ -41,7 +89,15 @@ Fetches metadata information about an inscription. Defaults to using the ID obta
 - `inscriptionId` - Inscription to get metadata. Defaults to the ID of the page running it if none is given.
 - `origin` - The origin for the fetch
 
-**Returns:** `Promise<Object>` - A promise that resolves with the processed metadata. The metadata is a JavaScript object parsed from a CBOR-encoded response.
+**Returns:**
+
+```ts
+Promise<Object>;
+```
+
+- A promise that resolves with the processed metadata. The metadata is a JavaScript object parsed from a CBOR-encoded response.
+
+**Warning:** Cbor-x decode might not have full coverage of decoding to json. Always test your response is like you intend before inscribing.
 
 **Example:**
 
@@ -60,7 +116,13 @@ Fetches a single inscription on a sat based on index. If index is not provided, 
 - `index` - The index of the inscription to fetch. Defaults to -1.
 - `origin` - The origin for the fetch.
 
-**Returns:** `Promise<{id: string}>` - A promise that resolves with the fetched inscriptionId.
+**Returns:**
+
+```ts
+Promise<{ id: string }>;
+```
+
+- A promise that resolves with the fetched inscriptionId.
 
 **Example:**
 
@@ -80,7 +142,11 @@ Fetches the page data for a specific SAT at a given page number.
 - `page` - The page number to fetch. Defaults to 0.
 - `origin` - The origin for the fetch.
 
-**Returns:** `Promise<{ids: Array<string>, more: boolean, page: number}>`
+**Returns:**
+
+```ts
+Promise<{ ids: Array<string>; more: boolean; page: number }>;
+```
 
 **Example:**
 
@@ -99,7 +165,13 @@ Fetches all the inscriptions on a sat. The function fetches the inscriptions in 
 - `sat` - The sat to fetch the inscriptions from.
 - `origin` - The origin for the fetch.
 
-**Returns:** `Promise<Array<string>>` - A promise that resolves with an array of the IDs of the inscriptions.
+**Returns:**
+
+```ts
+Promise<Array<string>>;
+```
+
+- A promise that resolves with an array of the IDs of the inscriptions.
 
 **Example:**
 
@@ -118,7 +190,11 @@ Fetches the children of a given inscription. If no inscription ID is provided, i
 - `page` - The page number to fetch the children from.
 - `origin` - The origin for the fetch.
 
-**Returns:** `Promise<{ids: Array<string>, more: boolean, page: number}>`
+**Returns:**
+
+```ts
+Promise<{ ids: Array<string>; more: boolean; page: number }>;
+```
 
 **Example:**
 
@@ -136,13 +212,102 @@ Fetches all the children of a given inscription.
 - `inscriptionId` - The ID of the inscription to get the children of. Defaults to the ID obtained from `getId()`.
 - `origin` - The origin for the fetch.
 
-**Returns:** `Promise<Array<string>>` - A promise that resolves with an array of the IDs of the children.
+**Returns:**
+
+```ts
+Promise<Array<string>>;
+```
+
+- A promise that resolves with an array of the IDs of the children.
 
 **Example:**
 
 ```javascript
 import { getChildrenAll } from '/content/ef7689dc2f504f63f8d13356f8928a2fec097b3b014c9fe53a1d1ddb5952f5dbi0';
 const allChildren = await getChildrenAll();
+```
+
+### `getAll(inscriptionId, origin)`
+
+Fetches all information about an inscription, including children, sat inscriptions, metadata, and its ID. Defaults to using the ID obtained from `getId()` if an `inscriptionId` is not provided.
+
+**Parameters:**
+
+- `inscriptionId` - Inscription to get all information about. Defaults to the ID of the page running it if none is given.
+- `origin` - The origin for the fetch.
+
+**Returns:**
+
+```ts
+Promise<{
+  inscription: {
+    charms: Array<string>;
+    content_type: string;
+    content_length: number;
+    fee: number;
+    height: number;
+    number: number;
+    output: string;
+    sat: null | string;
+    satpoint: string;
+    timestamp: number;
+    value: number;
+  } | null;
+  children: Array<string>;
+  satIds: Array<string>;
+  metadata: Object | null;
+  id: string;
+}>;
+```
+
+A promise that resolves with all the information about the inscription.
+
+**Example:**
+
+```js
+import { getInscriptionAll } from '/content/<ID_OF_THIS_INSCRIPTION>';
+const allInfo = await getInscriptionAll();
+```
+
+### `generateBlockInfo(blockInfo, origin)`
+
+Fetches information about a specific block by block height or block hash.
+
+**Parameters:**
+
+- `blockInfo` - The block height or block hash to get information about.
+- `origin` - The origin for the fetch.
+
+**Returns:**
+
+```ts
+{
+  Promise<{
+    bits: number;
+    chainwork: number;
+    confirmations: number;
+    difficulty: number;
+    hash: string;
+    height: number;
+    median_time: number;
+    merkle_root: string;
+    next_block: string;
+    nonce: number;
+    previous_block: string;
+    target: string;
+    timestamp: number;
+    transaction_count: number;
+    version: number;
+  } | null>;
+}
+```
+
+A promise that resolves with the information about the block or null if not found.
+**Example:**
+
+```js
+import { getBlockInfo } from '/content/<ID_OF_THIS_INSCRIPTION>';
+const blockInfo = await getBlockInfo(0);
 ```
 
 ### `getBlockHash(height, origin)`
@@ -154,7 +319,13 @@ Fetches the block hash at a given block height.
 - `height` - The height of the block to get the hash of.
 - `origin` - The origin for the fetch.
 
-**Returns:** `Promise<string>` - A promise that resolves with the hash of the block.
+**Returns:**
+
+```ts
+Promise<string>;
+```
+
+- A promise that resolves with the hash of the block.
 
 **Example:**
 
@@ -171,7 +342,13 @@ Fetches the latest block height.
 
 - `origin` - The origin for the fetch.
 
-**Returns:** `Promise<number>` - A promise that resolves with the height of the latest block.
+**Returns:**
+
+```ts
+Promise<number>;
+```
+
+- A promise that resolves with the height of the latest block.
 
 **Example:**
 
@@ -188,7 +365,13 @@ Fetches the UNIX time stamp of the latest block.
 
 - `origin` - The origin for the fetch.
 
-**Returns:** `Promise<number>` - A promise that resolves with the UNIX time stamp of the latest block.
+**Returns:**
+
+```ts
+Promise<number>;
+```
+
+- A promise that resolves with the UNIX time stamp of the latest block.
 
 **Example:**
 
