@@ -1,6 +1,6 @@
 # Recursive Endpoints
 
-Inscription location V1: `89fbbeca30c87535f9db283da584006c90076f220dbf410a01985a1840e0ea0ci0`
+Inscription location V1: `ef7689dc2f504f63f8d13356f8928a2fec097b3b014c9fe53a1d1ddb5952f5dbi0`
 Inscription location V2: `89fbbeca30c87535f9db283da584006c90076f220dbf410a01985a1840e0ea0ci0`
 
 To use in your inscription use script type module
