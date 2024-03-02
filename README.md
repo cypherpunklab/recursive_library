@@ -25,7 +25,25 @@ To run the test:
 bun test
 ```
 
-### `getAll(inscriptionId, origin)`
+# Function
+
+- [getAll](#getall)
+- [getId](#getid)
+- [getInscription](#getinscription)
+- [getMetadata](#getmetadata)
+- [getSatAt](#getsatat)
+- [getSatPage](#getsatpage)
+- [getSatAll](#getsatall)
+- [getChildrenPage](#getchildrenpage)
+- [getChildrenAll](#getchildrenall)
+- [getBlockInfo](#generateblockinfo)
+- [getBlockHash](#getblockhash)
+- [getBlockHeight](#getblockheight)
+- [getBlockTime](#getblocktime)
+
+---
+
+### `getAll`
 
 Fetches all information about an inscription, including children, sat inscriptions, metadata, and its ID. Defaults to using the ID obtained from `getId()` if an `inscriptionId` is not provided.
 
@@ -79,7 +97,7 @@ import { getInscriptionAll } from '/content/<ID_OF_THIS_INSCRIPTION>';
 const allInfo = await getInscriptionAll();
 ```
 
-### `getId()`
+### `getId`
 
 Retrieves the inscription ID from the current page's URL. Assumes the URL follows a structure like `/content/<id>` or `/preview/<id>`. The ID is expected to be the third segment in the URL path.
 
@@ -98,7 +116,7 @@ import { getId } from '/content/ef7689dc2f504f63f8d13356f8928a2fec097b3b014c9fe5
 const myId = getId();
 ```
 
-### `getInscription(inscriptionId, origin)`
+### `getInscription`
 
 Fetches information about an inscription. Defaults to using the ID obtained from `getId()` if an `inscriptionId` is not provided.
 
@@ -146,7 +164,7 @@ import { getInscription } from '/content/<ID_OF_THIS_INSCRIPTION>';
 const inscription = await getInscription();
 ```
 
-### `getMetadata(inscriptionId, origin)`
+### `getMetadata`
 
 Fetches metadata information about an inscription. Defaults to using the ID obtained from `getId()` if an `inscriptionId` is not provided.
 
@@ -172,7 +190,7 @@ import { getMetadata } from '/content/ef7689dc2f504f63f8d13356f8928a2fec097b3b01
 const metadata = await getMetadata();
 ```
 
-### `getSatAt(sat, index, origin)`
+### `getSatAt`
 
 Fetches a single inscription on a sat based on index. If index is not provided, it defaults to -1, which fetches the most recent inscription.
 
@@ -198,7 +216,7 @@ const sat = 1;
 const newestSatInscription = await getSatAt(sat);
 ```
 
-### `getSatPage(sat, page, origin)`
+### `getSatPage`
 
 Fetches the page data for a specific SAT at a given page number.
 
@@ -222,7 +240,7 @@ const sat = 1;
 const satFirst100 = await getSatPage(sat);
 ```
 
-### `getSatAll(sat, origin)`
+### `getSatAll`
 
 Fetches all the inscriptions on a sat. The function fetches the inscriptions in pages, and continues fetching until there are no more pages.
 
@@ -246,7 +264,7 @@ import { getSatAll } from '/content/ef7689dc2f504f63f8d13356f8928a2fec097b3b014c
 const satAll = await getSatAll();
 ```
 
-### `getChildrenPage(inscriptionId, page, origin)`
+### `getChildrenPage`
 
 Fetches the children of a given inscription. If no inscription ID is provided, it defaults to using the ID obtained from `getId()`.
 
@@ -269,7 +287,7 @@ import { getChildrenPage } from '/content/ef7689dc2f504f63f8d13356f8928a2fec097b
 const getFirst100Children = await getChildrenPage();
 ```
 
-### `getChildrenAll(inscriptionId, origin)`
+### `getChildrenAll`
 
 Fetches all the children of a given inscription.
 
@@ -293,7 +311,7 @@ import { getChildrenAll } from '/content/ef7689dc2f504f63f8d13356f8928a2fec097b3
 const allChildren = await getChildrenAll();
 ```
 
-### `generateBlockInfo(blockInfo, origin)`
+### `getBlockInfo`
 
 Fetches information about a specific block by block height or block hash.
 
@@ -334,7 +352,7 @@ import { getBlockInfo } from '/content/<ID_OF_THIS_INSCRIPTION>';
 const blockInfo = await getBlockInfo(0);
 ```
 
-### `getBlockHash(height, origin)`
+### `getBlockHash`
 
 Fetches the block hash at a given block height.
 
@@ -358,7 +376,7 @@ import { getBlockHash } from '/content/ef7689dc2f504f63f8d13356f8928a2fec097b3b0
 const findHash = await getBlockHash(height);
 ```
 
-### `getBlockHeight(origin)`
+### `getBlockHeight`
 
 Fetches the latest block height.
 
@@ -381,7 +399,7 @@ import { getBlockHeight } from '/content/ef7689dc2f504f63f8d13356f8928a2fec097b3
 const bh = await getBlockHeight();
 ```
 
-### `getBlockTime(origin)`
+### `getBlockTime`
 
 Fetches the UNIX time stamp of the latest block.
 
