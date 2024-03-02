@@ -1,4 +1,5 @@
 import {
+  getAll,
   getSatAt,
   getSatAll,
   getChildrenPage,
@@ -8,10 +9,62 @@ import {
   getBlockHash,
   getBlockHeight,
   getBlockTime,
+  getBlockInfo,
 } from './Recursive.mjs';
-import { describe, it, expect, beforeEach, afterEach } from 'bun:test';
+import { describe, it, expect } from 'bun:test';
 
 const testOrigin = 'https://ordinals.com';
+
+describe('getAll', () => {
+  it('should fetch all inscriptions', async () => {
+    const id = '<inscriptionId>';
+    const testResponse = {};
+    const inscription = await fetch(`${testOrigin}/r/inscription/${id}`);
+    const inscriptionJson = await inscription.json();
+    const sat = inscriptionJson.sat;
+
+    const satAll = await fetch(`${testOrigin}/r/sat/${sat}`);
+    const satAllJson = await satAll.json();
+
+    const children = await fetch(`${regTestOrigin}/r/children/${id}/0`);
+    const childrenJson = await children.json();
+
+    testResponse.children = childrenJson.ids;
+    testResponse.id = id;
+    testResponse.inscription = inscriptionJson;
+    testResponse.metadata = 'metadata here';
+    testResponse.satIds = satAllJson.ids;
+
+    const all = await getAll(id, regTestOrigin);
+    expect(all).toEqual(testResponse);
+  });
+});
+
+describe('getBlockInfo', () => {
+  it('should fetch block info', async () => {
+    const blockInfo = await getBlockInfo(0, testOrigin);
+    expect(blockInfo).toEqual({
+      bits: 486604799,
+      chainwork: 4295032833,
+      confirmations: 832757,
+      difficulty: 1.0,
+      hash: '000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f',
+      height: 0,
+      median_time: 1231006505,
+      merkle_root:
+        '4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b',
+      next_block:
+        '00000000839a8e6886ab5951d76f411475428afc90947ee320161bbf18eb6048',
+      nonce: 2083236893,
+      previous_block: null,
+      target:
+        '00000000ffff0000000000000000000000000000000000000000000000000000',
+      timestamp: 1231006505,
+      transaction_count: 1,
+      version: 1,
+    });
+  });
+});
 
 describe('getSatAt', () => {
   it('should fetch a single inscription on a sat', async () => {
@@ -88,11 +141,10 @@ describe('getMetadata', () => {
 
     const metadata = await getMetadata(testId, testOrigin);
     expect(metadata).toEqual({
-        title: 'Cypherpunk Ghost Honoary Eloc',
-        description: 'Cypherpunk legends of past, present and future',
-        collection: 'Cypherpunk Ghost Honoarys',
-      }
-    );
+      title: 'Cypherpunk Ghost Honoary Eloc',
+      description: 'Cypherpunk legends of past, present and future',
+      collection: 'Cypherpunk Ghost Honoarys',
+    });
   });
 });
 
@@ -118,11 +170,9 @@ describe('getBlockHash', () => {
   it('should handle future block', async () => {
     const testHeight = 888888;
 
-
-      const hash = await getBlockHash(testHeight, testOrigin);
-      expect(hash).toEqual(null);
-  }
-    );
+    const hash = await getBlockHash(testHeight, testOrigin);
+    expect(hash).toEqual(null);
+  });
 });
 
 describe('getBlockTime', () => {

@@ -2,6 +2,7 @@
  * @title Recursive Endpoints
  * @author Eloc
  * @description Library for getting data off recursive endpoints
+ * @version 2.0
  */
 import { decode } from './content/cbor-x.mjs';
 
@@ -15,10 +16,35 @@ import { decode } from './content/cbor-x.mjs';
  * import { getId } from '/content/<ID_OF_THIS_INSCRIPTION>';
  * const myId = getId();
  */
-export function getId() {
+export const getId = () => {
   let id = window.location.pathname.split('/')[2];
   return id;
-}
+};
+
+/**
+ * @description Fetches information about an inscription.
+ * Defaults to using the ID obtained from `getId()` if an `inscriptionId` is not provided.
+ * @param {string} inscriptionId - Inscription to get metadata.
+ *                                 Defaults to the ID of the page running it if none is given.
+ * @param {string} origin - The origin for the fetch
+ * @returns {Promise<{charms: Array<string>, content_type: string, content_length: number, fee: number, height: number, number: number, output: string, sat: null | string, satpoint: string, timestamp: number, value: number} | null>} A promise that resolves with the processed metadata or null if the metadata was not found.
+ * @example
+ * import { getMetadata } from '/content/<ID_OF_THIS_INSCRIPTION>';
+ * const inscription = await getInscription();
+ */
+
+export const getInscription = async (inscriptionId = getId(), origin = '') => {
+  try {
+    const response = await fetch(`${origin}/r/inscription/${inscriptionId}`);
+    if (!response.ok) {
+      return null;
+    }
+    const json = await response.json();
+    return json;
+  } catch (error) {
+    console.error('Error fetching inscription:', error);
+  }
+};
 
 /**
  * @description Fetches metadata information about an inscription.
@@ -27,11 +53,12 @@ export function getId() {
  *                                 Defaults to the ID of the page running it if none is given.
  * @param {string} origin - The origin for the fetch
  * @returns {Promise<{Object | null}>} A promise that resolves with the processed metadata or null if the metadata was not found.
+ * @warning Cbor-x decode might not have full coverage of decoding to json. Always test your response is like you intend before inscribing.
  * @example
  * import { getMetadata } from '/content/<ID_OF_THIS_INSCRIPTION>';
  * const metadata = await getMetadata();
  */
-export async function getMetadata(inscriptionId = getId(), origin = '') {
+export const getMetadata = async (inscriptionId = getId(), origin = '') => {
   try {
     const response = await fetch(`${origin}/r/metadata/${inscriptionId}`);
     if (!response.ok) {
@@ -47,7 +74,7 @@ export async function getMetadata(inscriptionId = getId(), origin = '') {
   } catch (error) {
     console.error('Error fetching metadata:', error);
   }
-}
+};
 
 /**
  * @description Fetches a single inscription on a sat based on index.
@@ -62,10 +89,10 @@ export async function getMetadata(inscriptionId = getId(), origin = '') {
  * const sat = 1
  * const newestSatInscription = await getSatAt(sat);
  */
-export async function getSatAt(sat, index = -1, origin = '') {
+export const getSatAt = async (sat, index = -1, origin = '') => {
   const response = await fetch(`${origin}/r/sat/${sat}/at/${index}`);
   return response.json();
-}
+};
 
 /**
  * @description Fetches the page data for a specific SAT at a given page number.
@@ -79,7 +106,7 @@ export async function getSatAt(sat, index = -1, origin = '') {
  * const sat = 1
  * const satFirst100 = await getSatPage(sat);
  */
-export async function getSatPage(sat, page = 0, origin = '') {
+export const getSatPage = async (sat, page = 0, origin = '') => {
   try {
     const response = await fetch(`${origin}/r/sat/${sat}/${page}`);
     if (!response.ok) {
@@ -94,7 +121,7 @@ export async function getSatPage(sat, page = 0, origin = '') {
   } catch (error) {
     console.error('Error fetching data:', error);
   }
-}
+};
 
 /**
  * @description Fetches all the inscriptions on a sat.
@@ -107,7 +134,7 @@ export async function getSatPage(sat, page = 0, origin = '') {
  * import { getSatAll } from '/content/<ID_OF_THIS_INSCRIPTION>';
  * const satAll = await getSatAll();
  */
-export async function getSatAll(sat, origin = '') {
+export const getSatAll = async (sat, origin = '') => {
   let ids = [];
   let more = true;
   let page = 0;
@@ -119,7 +146,7 @@ export async function getSatAll(sat, origin = '') {
     page++;
   }
   return ids;
-}
+};
 
 /**
  * @description Fetches the children of a given inscription.
@@ -172,7 +199,7 @@ export const getChildrenPage = async (
  * import { getChildrenAll } from '/content/<ID_OF_THIS_INSCRIPTION>';
  * const allChildren = await getChildrenAll();
  */
-export async function getChildrenAll(inscriptionId = getId(), origin = '') {
+export const getChildrenAll = async (inscriptionId = getId(), origin = '') => {
   let ids = [];
   let more = true;
   let page = 0;
@@ -184,17 +211,72 @@ export async function getChildrenAll(inscriptionId = getId(), origin = '') {
     page++;
   }
   return ids;
-}
+};
+
+/**
+ * @description Fetches all information about an inscription, including children, sat inscriptions, metadata and its id.
+ * Defaults to using the ID obtained from `getId()` if an `inscriptionId` is not provided.
+ * @param {string} inscriptionId - Inscription to get all information.
+ *                                 Defaults to the ID of the page running it if none is given.
+ * @param {string} origin - The origin for the fetch
+ * @returns {Promise<{inscription: {charms: Array<string>, content_type: string, content_length: number, fee: number, height: number, number: number, output: string, sat: null | string, satpoint: string, timestamp: number, value: number} | null, children: Array<string>, satIds: Array<string>, metadata: Object | null, id: <string>}>} A promise that resolves with all the information about the inscription.
+ * @example
+ * import { getInscriptionAll } from '/content/<ID_OF_THIS_INSCRIPTION>';
+ * const allInfo = await getInscriptionAll();
+ */
+export const getAll = async (inscriptionId = getId(), origin = '') => {
+  let res = {};
+  try {
+    const inscription = await getInscription(inscriptionId, origin);
+    res.inscription = inscription;
+
+    const children = await getChildrenAll(inscriptionId, origin);
+    res.children = children;
+
+    const sat = await getSatAll(inscription.sat, origin);
+    res.satIds = sat;
+
+    const metadata = await getMetadata(inscriptionId, origin);
+    res.metadata = metadata;
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+  res.id = inscriptionId;
+  return res;
+};
+
+/**
+ * @description Fetches information about a specific block by block height or block hash.
+ * @param {string} blockInfo - The block height or block hash to get information about.
+ * @param {string} origin - The origin for the fetch.
+ * @returns {Promise<{bits: number, chainwork: number, confirmations: number, difficulty: number, hash: string, height: number, median_time: number, merkle_root: string, next_block: string, nonce: number, previous_block: string, target: string, timestamp: number, transaction_count: number, version: number} | null>} A promise that resolves with the information about the block or null if not found.
+ * @example
+ * import { getBlockInfo } from '/content/<ID_OF_THIS_INSCRIPTION>';
+ * const blockInfo = await getBlockInfo(0);
+ */
+export const getBlockInfo = async (blockInfo, origin = '') => {
+  const url = `${origin}/r/blockinfo/${blockInfo}`;
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    if (response.status === 404) {
+      return null;
+    }
+    throw new Error('Network response was not ok');
+  }
+
+  return response.json();
+};
+
 /**
  * @description Fetches the block hash at a given block height.
- *
  * @param {number} height - The height of the block to get the hash of.
  * @returns {Promise<string | null>} A promise that resolves with the hash of the block or null if 404.
  * @example
  * import { getBlockHash } from '/content/<ID_OF_THIS_INSCRIPTION>';
  * const findHash = await getBlockHash(height)
  */
-export async function getBlockHash(height, origin = '') {
+export const getBlockHash = async (height, origin = '') => {
   const url = `${origin}/r/blockhash/${height}`;
   const response = await fetch(url);
 
@@ -207,7 +289,7 @@ export async function getBlockHash(height, origin = '') {
 
   const hash = await response.text();
   return hash;
-}
+};
 
 /**
  * @description Fetches the latest block height.
@@ -217,7 +299,7 @@ export async function getBlockHash(height, origin = '') {
  * import { getBlockHeight } from '/content/<ID_OF_THIS_INSCRIPTION>';
  * const bh = await getBlockHeight();
  */
-export async function getBlockHeight(origin = '') {
+export const getBlockHeight = async (origin = '') => {
   try {
     const response = await fetch(`${origin}/r/blockheight`);
     if (!response.ok) {
@@ -228,7 +310,7 @@ export async function getBlockHeight(origin = '') {
   } catch (error) {
     console.error('Error fetching block height:', error);
   }
-}
+};
 
 /**
  * @description Fetches the UNIX time stamp of the latest block.
@@ -238,7 +320,7 @@ export async function getBlockHeight(origin = '') {
  * import { getBlockTime } from '/content/<ID_OF_THIS_INSCRIPTION>';
  * const blockTime = await getBlockTime();
  */
-export async function getBlockTime(origin = '') {
+export const getBlockTime = async (origin = '') => {
   try {
     const response = await fetch(`${origin}/r/blocktime`);
     if (!response.ok) {
@@ -249,4 +331,4 @@ export async function getBlockTime(origin = '') {
   } catch (error) {
     console.error('Error fetching block time:', error);
   }
-}
+};
