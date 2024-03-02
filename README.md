@@ -25,6 +25,60 @@ To run the test:
 bun test
 ```
 
+### `getAll(inscriptionId, origin)`
+
+Fetches all information about an inscription, including children, sat inscriptions, metadata, and its ID. Defaults to using the ID obtained from `getId()` if an `inscriptionId` is not provided.
+
+**Parameters:**
+
+- `inscriptionId` - Inscription to get all information about. Defaults to the ID of the page running it if none is given.
+- `origin` - The origin for the fetch.
+
+**Returns:**
+
+```ts
+Promise<{
+  inscription: {
+    charms: Array<
+      | 'coin'
+      | 'cursed'
+      | 'epic'
+      | 'legendary'
+      | 'lost'
+      | 'nineball'
+      | 'rare'
+      | 'reinscription'
+      | 'unbound'
+      | 'uncommon'
+      | 'vindicated'
+    >;
+    content_type: string;
+    content_length: number;
+    fee: number;
+    height: number;
+    number: number;
+    output: string;
+    sat: null | string;
+    satpoint: string;
+    timestamp: number;
+    value: number;
+  } | null;
+  children: Array<string>;
+  satIds: Array<string>;
+  metadata: Object | null;
+  id: string;
+}>;
+```
+
+A promise that resolves with all the information about the inscription.
+
+**Example:**
+
+```js
+import { getInscriptionAll } from '/content/<ID_OF_THIS_INSCRIPTION>';
+const allInfo = await getInscriptionAll();
+```
+
 ### `getId()`
 
 Retrieves the inscription ID from the current page's URL. Assumes the URL follows a structure like `/content/<id>` or `/preview/<id>`. The ID is expected to be the third segment in the URL path.
@@ -57,7 +111,19 @@ Fetches information about an inscription. Defaults to using the ID obtained from
 
 ```ts
 Promise<{
-  charms: Array<string>;
+  charms: Array<
+    | 'coin'
+    | 'cursed'
+    | 'epic'
+    | 'legendary'
+    | 'lost'
+    | 'nineball'
+    | 'rare'
+    | 'reinscription'
+    | 'unbound'
+    | 'uncommon'
+    | 'vindicated'
+  >;
   content_type: string;
   content_length: number;
   fee: number;
@@ -95,7 +161,7 @@ Fetches metadata information about an inscription. Defaults to using the ID obta
 Promise<Object>;
 ```
 
-- A promise that resolves with the processed metadata. The metadata is a JavaScript object parsed from a CBOR-encoded response.
+A promise that resolves with the processed metadata. The metadata is a JavaScript object parsed from a CBOR-encoded response.
 
 **Warning:** Cbor-x decode might not have full coverage of decoding to json. Always test your response is like you intend before inscribing.
 
@@ -122,7 +188,7 @@ Fetches a single inscription on a sat based on index. If index is not provided, 
 Promise<{ id: string }>;
 ```
 
-- A promise that resolves with the fetched inscriptionId.
+A promise that resolves with the fetched inscriptionId.
 
 **Example:**
 
@@ -171,7 +237,7 @@ Fetches all the inscriptions on a sat. The function fetches the inscriptions in 
 Promise<Array<string>>;
 ```
 
-- A promise that resolves with an array of the IDs of the inscriptions.
+A promise that resolves with an array of the IDs of the inscriptions.
 
 **Example:**
 
@@ -218,55 +284,13 @@ Fetches all the children of a given inscription.
 Promise<Array<string>>;
 ```
 
-- A promise that resolves with an array of the IDs of the children.
+A promise that resolves with an array of the IDs of the children.
 
 **Example:**
 
 ```javascript
 import { getChildrenAll } from '/content/ef7689dc2f504f63f8d13356f8928a2fec097b3b014c9fe53a1d1ddb5952f5dbi0';
 const allChildren = await getChildrenAll();
-```
-
-### `getAll(inscriptionId, origin)`
-
-Fetches all information about an inscription, including children, sat inscriptions, metadata, and its ID. Defaults to using the ID obtained from `getId()` if an `inscriptionId` is not provided.
-
-**Parameters:**
-
-- `inscriptionId` - Inscription to get all information about. Defaults to the ID of the page running it if none is given.
-- `origin` - The origin for the fetch.
-
-**Returns:**
-
-```ts
-Promise<{
-  inscription: {
-    charms: Array<string>;
-    content_type: string;
-    content_length: number;
-    fee: number;
-    height: number;
-    number: number;
-    output: string;
-    sat: null | string;
-    satpoint: string;
-    timestamp: number;
-    value: number;
-  } | null;
-  children: Array<string>;
-  satIds: Array<string>;
-  metadata: Object | null;
-  id: string;
-}>;
-```
-
-A promise that resolves with all the information about the inscription.
-
-**Example:**
-
-```js
-import { getInscriptionAll } from '/content/<ID_OF_THIS_INSCRIPTION>';
-const allInfo = await getInscriptionAll();
 ```
 
 ### `generateBlockInfo(blockInfo, origin)`
@@ -325,7 +349,7 @@ Fetches the block hash at a given block height.
 Promise<string>;
 ```
 
-- A promise that resolves with the hash of the block.
+A promise that resolves with the hash of the block.
 
 **Example:**
 
@@ -348,7 +372,7 @@ Fetches the latest block height.
 Promise<number>;
 ```
 
-- A promise that resolves with the height of the latest block.
+A promise that resolves with the height of the latest block.
 
 **Example:**
 
@@ -371,7 +395,7 @@ Fetches the UNIX time stamp of the latest block.
 Promise<number>;
 ```
 
-- A promise that resolves with the UNIX time stamp of the latest block.
+A promise that resolves with the UNIX time stamp of the latest block.
 
 **Example:**
 
