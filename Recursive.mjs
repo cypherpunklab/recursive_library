@@ -17,8 +17,8 @@ import { decode } from './content/cbor-x.mjs';
  * const myId = getId();
  */
 export const getId = () => {
-  let id = window.location.pathname.split('/')[2];
-  return id;
+  let rex = /\/([a-f0-9]{64}i[0-9]{1,3})\/?/i;
+  return rex.exec(window.location.pathname).pop();
 };
 
 /**
