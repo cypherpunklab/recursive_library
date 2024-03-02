@@ -53,6 +53,7 @@ export const getInscription = async (inscriptionId = getId(), origin = '') => {
  *                                 Defaults to the ID of the page running it if none is given.
  * @param {string} origin - The origin for the fetch
  * @returns {Promise<{Object | null}>} A promise that resolves with the processed metadata or null if the metadata was not found.
+ * @warning Cbor-x decode might not have full coverage of decoding to json. Always test your response is like you intend before inscribing.
  * @example
  * import { getMetadata } from '/content/<ID_OF_THIS_INSCRIPTION>';
  * const metadata = await getMetadata();
@@ -254,7 +255,7 @@ export const getAll = async (inscriptionId = getId(), origin = '') => {
  * const blockInfo = await getBlockInfo(0);
  */
 export const getBlockInfo = async (blockInfo, origin = '') => {
-  const url = `${origin}/r/blockInfo/${blockInfo}`;
+  const url = `${origin}/r/blockinfo/${blockInfo}`;
   const response = await fetch(url);
 
   if (!response.ok) {
